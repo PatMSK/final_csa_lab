@@ -16,7 +16,6 @@ module top(
     inout [1:0] JB
     );
     
-    //JB[0] Rx, JB[1] Tx
     assign JB[1] = RsRx && Tx;
     
     wire targetclk, received; 
@@ -27,12 +26,11 @@ module top(
     assign ena = set || received_single;
     assign ena2 = set || received;
     
-    baudrate_gen baudrate_gen_inst(clk, targetclk);
-    uart_rx uart_rx_inst(targetclk, JB[0], received, data);
+    baudrate_gen baudrate_gen_inst(clk, targetclk); //baudrate
+    uart_rx uart_rx_inst(targetclk, JB[0], received, data); //uart
     uart_tx uart_tx_inst(targetclk, dataout, ena2, sent, RsTx);
     uart_tx uart_tx_inst2(targetclk, sw, set, sent, Tx);
-    singlePulser singlePulser_inst(received_single,received,w_p_tick);
-    //singlePulser singlePulser_inst2(ena_single,ena,targetclk);
+    singlePulser singlePulser_inst(received_single,received,w_p_tick); // singlepulser
     
     // signals
     wire [9:0] w_x, w_y;
@@ -50,17 +48,16 @@ module top(
                         .up(up), .down(down), .left(left), .right(right),
                         .sw(data), .x(w_x), .y(w_y), .rgb(rgb_next));
     
+    // rgb buffer
+    always @(posedge clk)
+        if(w_p_tick)
+            rgb_reg <= rgb_next;      
+    // output
+    assign rgb = rgb_reg;
+    
     always @(posedge clk) begin
         if(set) dataout <= sw;
         else if(received) dataout <= data[6:0];
     end
-    
-    // rgb buffer
-    always @(posedge clk)
-        if(w_p_tick)
-            rgb_reg <= rgb_next;
-            
-    // output
-    assign rgb = rgb_reg;
     
 endmodule

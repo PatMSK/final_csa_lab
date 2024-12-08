@@ -56,7 +56,6 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param chipscope.maxJobs 4
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tcpg236-1
 
@@ -75,8 +74,8 @@ OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
   C:/finalhw/finalhwproj/finalhwproj.srcs/sources_1/new/ascii_rom.v
   C:/finalhw/finalhwproj/finalhwproj.srcs/sources_1/new/baudrate_gen.v
-  C:/finalhw/finalhwproj/finalhwproj.srcs/sources_1/new/debounce.v
-  C:/finalhw/finalhwproj/finalhwproj.srcs/sources_1/new/simple_dual_one_clock.v
+  C:/finalhw/finalhwproj/finalhwproj.srcs/sources_1/new/debounce_chu.v
+  C:/finalhw/finalhwproj/finalhwproj.srcs/sources_1/new/dual_port_ram.v
   C:/finalhw/finalhwproj/finalhwproj.srcs/sources_1/new/singlePulser.v
   C:/finalhw/finalhwproj/finalhwproj.srcs/sources_1/new/text_screen_gen.v
   C:/finalhw/finalhwproj/finalhwproj.srcs/sources_1/new/uart_rx.v

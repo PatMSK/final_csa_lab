@@ -73,6 +73,9 @@ module text_screen_gen(
         end else if(set_single) begin
             if(sw == 7'h7F) begin
                 if(cur_x_reg > 0) cur_x_reg <= cur_x_reg - 1;
+            end else if(sw == 7'h0D) begin
+                cur_x_reg <= 0;
+                cur_y_reg <= cur_y_reg+1;
             end else if(cur_x_reg < 70)
                 cur_x_reg <= cur_x_reg + 1;
             else begin
@@ -116,8 +119,8 @@ module text_screen_gen(
     
     // object signals
     // green over black and reversed video for cursor
-    assign text_rgb = (ascii_bit) ? 12'h000 : 12'hFCC;
-    assign text_rev_rgb = (ascii_bit) ? 12'hFCC : 12'h000;
+    assign text_rgb = (ascii_bit) ? 12'h000 : 12'hFFF;
+    assign text_rev_rgb = (ascii_bit) ? 12'hFFF : 12'h000;
     // use delayed coordinates for comparison
     assign cursor_on = (pix_y2_reg[8:4] == cur_y_reg) &&
                        (pix_x2_reg[9:3] == cur_x_reg);

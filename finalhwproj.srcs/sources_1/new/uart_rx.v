@@ -21,6 +21,7 @@
 
 
 module uart_rx(
+
     input clk,
     input bit_in,
     output reg received,
@@ -32,16 +33,16 @@ module uart_rx(
     reg [7:0] count;
     
     always@(posedge clk) begin
-        if (~receiving & last_bit & ~bit_in) begin
-            receiving <= 1;
-            received <= 0;
-            count <= 0;
-        end
+        if (~receiving & last_bit & ~bit_in) 
+            begin
+                receiving <= 1;
+                received <= 0;
+                count <= 0;
+            end
 
         last_bit <= bit_in;
         count <= (receiving) ? count+1 : 0;
         
-        // sampling every 16 ticks
         case (count)
             8'd24:  data_out[0] <= bit_in;
             8'd40:  data_out[1] <= bit_in;
@@ -51,7 +52,9 @@ module uart_rx(
             8'd104: data_out[5] <= bit_in;
             8'd120: data_out[6] <= bit_in;
             8'd136: data_out[7] <= bit_in;
-            8'd152: begin received <= 1; receiving <= 0; end
+            8'd152: begin received <= 1; 
+                    receiving <= 0; 
+                    end
         endcase
     end
 endmodule
